@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 
+using static Witsml.CommonConstants;
+
 namespace Witsml.Data.Tubular
 {
     [XmlRoot("tubulars", Namespace = "http://www.witsml.org/schemas/1series")]
@@ -13,7 +15,7 @@ namespace Witsml.Data.Tubular
         [XmlElement("tubular")]
         public List<WitsmlTubular> Tubulars { get; set; } = new List<WitsmlTubular>();
 
-        public string TypeName => "tubular";
+        public string TypeName => WitsmlQueryTypeName.Tubular;
 
         [XmlIgnore]
         public IEnumerable<WitsmlObjectOnWellbore> Objects

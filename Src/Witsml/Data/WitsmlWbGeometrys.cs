@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 
+using static Witsml.CommonConstants;
+
 namespace Witsml.Data
 {
     [XmlRoot("wbGeometrys", Namespace = "http://www.witsml.org/schemas/1series")]
@@ -13,7 +15,7 @@ namespace Witsml.Data
         [XmlElement("wbGeometry")]
         public List<WitsmlWbGeometry> WbGeometrys { get; set; } = new List<WitsmlWbGeometry>();
 
-        public string TypeName => "wbGeometry";
+        public string TypeName => WitsmlQueryTypeName.WbGeometry;
 
         [XmlIgnore]
         public IEnumerable<WitsmlObjectOnWellbore> Objects

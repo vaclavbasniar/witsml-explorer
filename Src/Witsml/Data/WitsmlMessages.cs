@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 
+using static Witsml.CommonConstants;
+
 namespace Witsml.Data
 {
     [XmlRoot("messages", Namespace = "http://www.witsml.org/schemas/1series")]
@@ -14,7 +16,7 @@ namespace Witsml.Data
         [XmlElement("message")]
         public List<WitsmlMessage> Messages { get; set; } = new List<WitsmlMessage>();
 
-        public string TypeName => "message";
+        public string TypeName => WitsmlQueryTypeName.Message;
 
         [XmlIgnore]
         public IEnumerable<WitsmlObjectOnWellbore> Objects

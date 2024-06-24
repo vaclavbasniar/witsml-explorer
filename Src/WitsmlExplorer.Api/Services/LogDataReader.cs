@@ -142,8 +142,8 @@ namespace WitsmlExplorer.Api.Services
 
             string index = sourceLogData.Data.Last().Data.Split(CommonConstants.DataSeparator)[0];
             _startIndex = _indexType == WitsmlLog.WITSML_INDEX_TYPE_MD
-            ? new DepthIndex(double.Parse(index, CultureInfo.InvariantCulture), ((DepthIndex)_endIndex).Uom)
-            : new DateTimeIndex(DateTime.Parse(index, CultureInfo.InvariantCulture));
+                ? new DepthIndex(double.Parse(index, CultureInfo.InvariantCulture), ((DepthIndex)_endIndex).Uom)
+                    : new DateTimeIndex(DateTime.Parse(index, CultureInfo.InvariantCulture));
 
             _dropFirstRow = true;
             return sourceLogData;

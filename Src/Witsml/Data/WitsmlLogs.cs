@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 
+using static Witsml.CommonConstants;
+
 namespace Witsml.Data
 {
     [XmlRoot("logs", Namespace = "http://www.witsml.org/schemas/1series")]
@@ -13,7 +15,7 @@ namespace Witsml.Data
         [XmlElement("log")]
         public List<WitsmlLog> Logs { get; set; } = new();
 
-        public string TypeName => "log";
+        public string TypeName => WitsmlQueryTypeName.Log;
 
         [XmlIgnore]
         public IEnumerable<WitsmlObjectOnWellbore> Objects

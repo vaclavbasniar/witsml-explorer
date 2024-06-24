@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
+using static Witsml.CommonConstants;
+
 namespace Witsml.Data
 {
     [XmlRoot("changeLogs", Namespace = "http://www.witsml.org/schemas/1series")]
@@ -12,6 +14,6 @@ namespace Witsml.Data
         [XmlElement("changeLog")]
         public List<WitsmlChangeLog> ChangeLogs { get; set; } = new List<WitsmlChangeLog>();
 
-        public string TypeName => "changeLog";
+        public string TypeName => WitsmlQueryTypeName.ChangeLog;
     }
 }

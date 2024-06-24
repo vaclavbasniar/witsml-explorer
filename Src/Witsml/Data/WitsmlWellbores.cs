@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
+using static Witsml.CommonConstants;
+
 namespace Witsml.Data
 {
     [XmlRoot("wellbores", Namespace = "http://www.witsml.org/schemas/1series")]
@@ -11,6 +13,6 @@ namespace Witsml.Data
 
         [XmlElement("wellbore")]
         public List<WitsmlWellbore> Wellbores { get; set; } = new List<WitsmlWellbore>();
-        public string TypeName => "wellbore";
+        public string TypeName => WitsmlQueryTypeName.Wellbore;
     }
 }

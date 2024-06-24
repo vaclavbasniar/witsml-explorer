@@ -2,6 +2,8 @@ using System.Xml.Serialization;
 
 using Witsml.Data.Curves;
 
+using static Witsml.CommonConstants;
+
 namespace Witsml.Data
 {
     public class WitsmlData : IWitsmlQueryType
@@ -19,6 +21,6 @@ namespace Witsml.Data
             return new(Data);
         }
 
-        public string TypeName => "data";
+        public string TypeName => WitsmlQueryTypeName.Data;
     }
 }

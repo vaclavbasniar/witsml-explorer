@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
+using static Witsml.CommonConstants;
+
 namespace Witsml.Data
 {
     public class WitsmlLogData : IWitsmlQueryType
@@ -14,6 +16,6 @@ namespace Witsml.Data
         [XmlElement("data")]
         public List<WitsmlData> Data { get; set; }
 
-        public string TypeName => "data";
+        public string TypeName => WitsmlQueryTypeName.Data;
     }
 }

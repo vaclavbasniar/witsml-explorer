@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 
+using static Witsml.CommonConstants;
+
 namespace Witsml.Data
 {
     [XmlRoot("formationMarkers", Namespace = "http://www.witsml.org/schemas/1series")]
@@ -13,7 +15,7 @@ namespace Witsml.Data
         [XmlElement("formationMarker")]
         public List<WitsmlFormationMarker> FormationMarkers { get; set; } = new();
 
-        public string TypeName => "formationMarker";
+        public string TypeName => WitsmlQueryTypeName.FormationMarker;
 
         [XmlIgnore]
         public IEnumerable<WitsmlObjectOnWellbore> Objects

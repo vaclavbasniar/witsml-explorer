@@ -55,46 +55,54 @@ namespace WitsmlExplorer.Api.Workers.Copy
             List<string> existingMnemonicsInTarget = mnemonicsToCopy.Where(mnemonic => targetLogMnemonics.Contains(mnemonic, StringComparer.OrdinalIgnoreCase)).ToList();
             List<string> newMnemonicsInTarget = mnemonicsToCopy.Where(mnemonic => !targetLogMnemonics.Contains(mnemonic, StringComparer.OrdinalIgnoreCase)).ToList();
 
-            SetIndexesOnSourceLogs(sourceLog, job);
-
-            try
-            {
-                VerifyNormalSourceMnemonicsDoesNotMatchIndexCurveOnTarget(sourceLog, targetLog, mnemonicsToCopy);
-                VerifyMatchingIndexTypes(sourceLog, targetLog);
-                VerifyValidInterval(sourceLog);
-                VerifyIndexCurveIsIncludedInMnemonics(sourceLog, newMnemonicsInTarget, existingMnemonicsInTarget);
-                await VerifyTargetHasRequiredLogCurveInfos(sourceLog, job.Source.ComponentUids, targetLog);
-            }
-            catch (Exception e)
-            {
-                string errorMessage = "Failed to copy log data.";
-                Logger.LogError("{errorMessage} - {error} - {Description}", errorMessage, e.Message, job.Description());
-                return (new WorkerResult(GetTargetWitsmlClientOrThrow().GetServerHostname(), false, errorMessage, e.Message, sourceServerUrl: GetSourceWitsmlClientOrThrow().GetServerHostname()), null);
-            }
-
             int totalRowsCopied = 0;
             int originalRows = 0;
-            if (existingMnemonicsInTarget.Any())
-            {
-                CopyResult copyResultForExistingMnemonics = await CopyLogData(sourceLog, targetLog, job, existingMnemonicsInTarget, sourceDepthLogDecimals, targetDepthLogDecimals, cancellationToken);
-                totalRowsCopied += copyResultForExistingMnemonics.NumberOfRowsCopied;
-                originalRows += copyResultForExistingMnemonics.OriginalNumberOfRows;
-                if (!copyResultForExistingMnemonics.Success)
-                {
-                    string message = $"Failed to copy curves for existing mnemonics to log. {copyResultForExistingMnemonics.ErrorReason}. Copied a total of {copyResultForExistingMnemonics.NumberOfRowsCopied} rows.";
-                    return LogAndReturnErrorResult(message, job);
-                }
-            }
 
-            if (newMnemonicsInTarget.Any())
+            if (existingMnemonicsInTarget.Any() || newMnemonicsInTarget.Any())
             {
-                CopyResult copyResultForNewMnemonics = await CopyLogData(sourceLog, targetLog, job, newMnemonicsInTarget, sourceDepthLogDecimals, targetDepthLogDecimals, cancellationToken);
-                totalRowsCopied += copyResultForNewMnemonics.NumberOfRowsCopied;
-                originalRows += copyResultForNewMnemonics.OriginalNumberOfRows;
-                if (!copyResultForNewMnemonics.Success)
+                SetIndexesOnSourceLogs(sourceLog, job);
+
+                try
                 {
-                    string message = $"Failed to copy curves for new mnemonics to log. {copyResultForNewMnemonics.ErrorReason}. Copied a total of {copyResultForNewMnemonics.NumberOfRowsCopied} rows";
-                    return LogAndReturnErrorResult(message, job);
+                    VerifyNormalSourceMnemonicsDoesNotMatchIndexCurveOnTarget(sourceLog, targetLog, mnemonicsToCopy);
+                    VerifyMatchingIndexTypes(sourceLog, targetLog);
+                    VerifyValidInterval(sourceLog);
+                    VerifyIndexCurveIsIncludedInMnemonics(sourceLog, newMnemonicsInTarget, existingMnemonicsInTarget);
+                    await VerifyTargetHasRequiredLogCurveInfos(sourceLog, job.Source.ComponentUids, targetLog);
+                }
+                catch (Exception e)
+                {
+                    string errorMessage = "Failed to copy log data.";
+                    Logger.LogError("{errorMessage} - {error} - {Description}", errorMessage, e.Message, job.Description());
+                    return (new WorkerResult(GetTargetWitsmlClientOrThrow().GetServerHostname(), false, errorMessage, e.Message, sourceServerUrl: GetSourceWitsmlClientOrThrow().GetServerHostname()), null);
+                }
+
+                var targetServerCapabilities = GetTargetServerCapabilities();
+                var sourceServerCapabilities = GetSourceServerCapabilities();
+
+
+                if (existingMnemonicsInTarget.Any())
+                {
+                    CopyResult copyResultForExistingMnemonics = await CopyLogData(sourceLog, targetLog, job, existingMnemonicsInTarget, sourceDepthLogDecimals, targetDepthLogDecimals, cancellationToken);
+                    totalRowsCopied += copyResultForExistingMnemonics.NumberOfRowsCopied;
+                    originalRows += copyResultForExistingMnemonics.OriginalNumberOfRows;
+                    if (!copyResultForExistingMnemonics.Success)
+                    {
+                        string message = $"Failed to copy curves for existing mnemonics to log. {copyResultForExistingMnemonics.ErrorReason}. Copied a total of {copyResultForExistingMnemonics.NumberOfRowsCopied} rows.";
+                        return LogAndReturnErrorResult(message, job);
+                    }
+                }
+
+                if (newMnemonicsInTarget.Any())
+                {
+                    CopyResult copyResultForNewMnemonics = await CopyLogData(sourceLog, targetLog, job, newMnemonicsInTarget, sourceDepthLogDecimals, targetDepthLogDecimals, cancellationToken);
+                    totalRowsCopied += copyResultForNewMnemonics.NumberOfRowsCopied;
+                    originalRows += copyResultForNewMnemonics.OriginalNumberOfRows;
+                    if (!copyResultForNewMnemonics.Success)
+                    {
+                        string message = $"Failed to copy curves for new mnemonics to log. {copyResultForNewMnemonics.ErrorReason}. Copied a total of {copyResultForNewMnemonics.NumberOfRowsCopied} rows";
+                        return LogAndReturnErrorResult(message, job);
+                    }
                 }
             }
 

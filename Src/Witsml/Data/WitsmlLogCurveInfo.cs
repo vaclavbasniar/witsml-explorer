@@ -3,6 +3,8 @@ using System.Xml.Serialization;
 
 using Witsml.Data.Measures;
 
+using static Witsml.CommonConstants;
+
 namespace Witsml.Data
 {
     public class WitsmlLogCurveInfo : IWitsmlQueryType
@@ -73,7 +75,7 @@ namespace Witsml.Data
         [XmlElement("axisDefinition")]
         public List<WitsmlAxisDefinition> AxisDefinitions { get; set; }
 
-        public string TypeName => "logCurveInfo";
+        public string TypeName => WitsmlQueryTypeName.LogCurveInfo;
 
         public static WitsmlLogCurveInfo Query(string mnemonic)
         {

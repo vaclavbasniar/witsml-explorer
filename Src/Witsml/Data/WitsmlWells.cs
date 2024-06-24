@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Xml.Serialization;
 
+using static Witsml.CommonConstants;
+
 namespace Witsml.Data
 {
     [XmlRoot("wells", Namespace = "http://www.witsml.org/schemas/1series")]
@@ -12,6 +14,6 @@ namespace Witsml.Data
         [XmlElement("well")]
         public List<WitsmlWell> Wells { get; set; } = new List<WitsmlWell>();
 
-        public string TypeName => "well";
+        public string TypeName => WitsmlQueryTypeName.Well;
     }
 }

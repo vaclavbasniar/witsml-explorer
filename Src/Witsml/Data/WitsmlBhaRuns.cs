@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 
+using static Witsml.CommonConstants;
+
 namespace Witsml.Data
 {
     [XmlRoot("bhaRuns", Namespace = "http://www.witsml.org/schemas/1series")]
@@ -13,7 +15,7 @@ namespace Witsml.Data
         [XmlElement("bhaRun")]
         public List<WitsmlBhaRun> BhaRuns { get; set; } = new List<WitsmlBhaRun>();
 
-        public string TypeName => "bhaRun";
+        public string TypeName => WitsmlQueryTypeName.BhaRun;
 
         [XmlIgnore]
         public IEnumerable<WitsmlObjectOnWellbore> Objects

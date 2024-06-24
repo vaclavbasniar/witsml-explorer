@@ -3,6 +3,8 @@ using System.Xml.Serialization;
 
 using Witsml.Data.Measures;
 
+using static Witsml.CommonConstants;
+
 namespace Witsml.Data.MudLog
 {
     public class WitsmlMudLogGeologyInterval : IWitsmlQueryType
@@ -130,6 +132,6 @@ namespace Witsml.Data.MudLog
         [XmlElement("commonTime")]
         public WitsmlCommonTime CommonTime { get; set; }
 
-        public string TypeName => "geologyInterval";
+        public string TypeName => WitsmlQueryTypeName.GeologyInterval;
     }
 }

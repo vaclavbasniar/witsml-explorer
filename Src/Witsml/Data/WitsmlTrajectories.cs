@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
 
+using static Witsml.CommonConstants;
+
 namespace Witsml.Data
 {
     [XmlRoot("trajectorys", Namespace = "http://www.witsml.org/schemas/1series")]
@@ -13,7 +15,7 @@ namespace Witsml.Data
         [XmlElement("trajectory")]
         public List<WitsmlTrajectory> Trajectories { get; set; } = new();
 
-        public string TypeName => "trajectory";
+        public string TypeName => WitsmlQueryTypeName.Trajectory;
 
         [XmlIgnore]
         public IEnumerable<WitsmlObjectOnWellbore> Objects
