@@ -177,17 +177,17 @@ public class WellboreSubObjectsComparisonWorker : BaseWorker<WellboreSubObjectsC
             }
         }
 
-        if (reportItems.All(i => i.DataPointsOfMnemonicOnSource.IsNumeric()))
+        if (reportItems.All(i => i.DataPointsOfMnemonicOnSource != null && i.DataPointsOfMnemonicOnSource.IsNumeric()))
         {
             reportItemColumns.Add(new() { Name = "datapointsofmnemoniconsource", Type = ReportItemType.NUMBER });
         }
 
-        if (reportItems.All(i => i.DataPointsOfMnemonicOnTarget.IsNumeric()))
+        if (reportItems.All(i => i.DataPointsOfMnemonicOnTarget != null && i.DataPointsOfMnemonicOnTarget.IsNumeric()))
         {
             reportItemColumns.Add(new() { Name = "datapointsofmnemonicontarget", Type = ReportItemType.NUMBER });
         }
 
-        if (reportItems.All(i => i.NumberOfDifferencesInValuesInMnemonics.IsNumeric()))
+        if (reportItems.All(i => i.NumberOfDifferencesInValuesInMnemonics != null && i.NumberOfDifferencesInValuesInMnemonics.IsNumeric()))
         {
             reportItemColumns.Add(new() { Name = "NumberOfDifferencesInValuesInMnemonics", Type = ReportItemType.NUMBER });
         }
